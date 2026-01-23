@@ -97,11 +97,14 @@
     }'
     ```
     Не забывайте про Basic Auth в заголовках (под свое имя и пароль в базе 1С).
-4. **Самое главное** - не забудьте **подправить [SKILL.md](.claude/skills/1c-queries/SKILL.md)** под свои данные:
-    - свой url
-    - свои логины/пароли
+    Для быстрого запуска используйте скрипты из `.claude/skills/1c-queries/scripts/` — они читают `.env` автоматически.
+4. **Самое главное** - заполните `.claude/skills/1c-queries/.env` под свои данные:
+    - `ONEC_QUERY_URL`
+    - `ONEC_QUERY_LOGIN`
+    - `ONEC_QUERY_PASSWORD`
+    Значения в [SKILL.md](.claude/skills/1c-queries/SKILL.md) теперь читаются из `.env`.
 
-5. В каталоге своего проекта копируйте: `.claude/skills/1c-queries/SKILL.md`
+5. В каталоге своего проекта копируйте всю папку: `.claude/skills/1c-queries/` (включая `.env` и `scripts/`)
 
 **Все! Можно общаться с данными 1С через LLM агента!**
 
