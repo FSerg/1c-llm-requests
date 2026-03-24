@@ -31,7 +31,8 @@ Get-Content -Path $envPath | ForEach-Object {
 
     if ($value.StartsWith('"') -and $value.EndsWith('"')) {
         $value = $value.Substring(1, $value.Length - 2)
-    } elseif ($value.StartsWith("'") -and $value.EndsWith("'")) {
+    }
+    elseif ($value.StartsWith("'") -and $value.EndsWith("'")) {
         $value = $value.Substring(1, $value.Length - 2)
     }
 
@@ -62,7 +63,7 @@ if ([string]::IsNullOrWhiteSpace($Query)) {
     throw "Query is empty. Use -Query, -QueryFile, or pipe input."
 }
 
-$authBytes = [Text.Encoding]::ASCII.GetBytes("$($login):$($password)")
+$authBytes = [Text.Encoding]::UTF8.GetBytes("$($login):$($password)")
 $authHeader = [Convert]::ToBase64String($authBytes)
 
 $payload = @{ query = $Query } | ConvertTo-Json -Compress
@@ -85,7 +86,8 @@ if ($PSVersionTable.PSVersion.Major -lt 6) {
 try {
     $response = Invoke-WebRequest @requestParams -ErrorAction Stop
     Write-Output $response.Content
-} catch {
+}
+catch {
     $responseBody = $null
     $exception = $_.Exception
     $errorDetails = $_.ErrorDetails
@@ -99,15 +101,18 @@ try {
                 $responseBody = $reader.ReadToEnd()
                 $reader.Close()
             }
-        } catch {
+        }
+        catch {
         }
     }
 
     if ([string]::IsNullOrWhiteSpace($responseBody) -and $null -ne $errorDetails -and -not [string]::IsNullOrWhiteSpace($errorDetails.Message)) {
         Write-Output $errorDetails.Message
-    } elseif ([string]::IsNullOrWhiteSpace($responseBody)) {
+    }
+    elseif ([string]::IsNullOrWhiteSpace($responseBody)) {
         Write-Output $exception.Message
-    } else {
+    }
+    else {
         Write-Output $responseBody
     }
 
